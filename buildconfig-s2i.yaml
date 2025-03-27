@@ -8,7 +8,6 @@ spec:
     git:
       uri: https://github.com/nexu-arze/auftrag-6-2.git
       ref: main
-    contextDir: html
   strategy:
     type: Source
     sourceStrategy:
