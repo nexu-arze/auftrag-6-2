@@ -1,0 +1,22 @@
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  name: html-openshift-app
+spec:
+  source:
+    type: Git
+    git:
+      uri: https://github.com/nexu-arze/auftrag-6-2.git
+      ref: main
+    contextDir: html
+  strategy:
+    type: Source
+    sourceStrategy:
+      from:
+        kind: ImageStreamTag
+        name: nginx:latest
+        namespace: openshift
+  output:
+    to:
+      kind: ImageStreamTag
+      name: html-openshift-app:latest
