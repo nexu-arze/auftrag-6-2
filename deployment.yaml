@@ -1,12 +1,13 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: apps.openshift.io/v1
+kind: DeploymentConfig
 metadata:
   name: html-openshift-app
+  labels:
+    app: html-openshift-app
 spec:
   replicas: 1
   selector:
-    matchLabels:
-      app: html-openshift-app
+    app: html-openshift-app
   template:
     metadata:
       labels:
@@ -14,7 +15,17 @@ spec:
     spec:
       containers:
         - name: html-openshift-app
-          image: image-registry.openshift-image-registry.svc:5000/254195-ardzen/html-openshift-app:latest
+          image: html-openshift-app:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
+  triggers:
+    - type: ConfigChange
+    - type: ImageChange
+      imageChangeParams:
+        automatic: true
+        containerNames:
+          - html-openshift-app
+        from:
+          kind: ImageStreamTag
+          name: html-openshift-app:latest
